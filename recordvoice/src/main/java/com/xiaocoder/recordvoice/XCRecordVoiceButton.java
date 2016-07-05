@@ -379,7 +379,7 @@ public class XCRecordVoiceButton extends Button {
     }
 
     public File getSaveDir() {
-        if (save_dir == null) {
+        if (save_dir == null || !save_dir.exists()) {
             save_dir = UtilFile.createDirInAndroid(getContext(), "appTempVoiceDir123");
         }
         return save_dir;
@@ -387,7 +387,11 @@ public class XCRecordVoiceButton extends Button {
 
     private void recording() {
         try {
-            save_file = new File(getSaveDir(), "voice_" + System.currentTimeMillis());
+            File dir = getSaveDir();
+            if (dir == null || !dir.exists()) {
+                return;
+            }
+            save_file = new File(dir, "voice_" + System.currentTimeMillis());
             if (!save_file.exists()) {
                 save_file.createNewFile();
             }
