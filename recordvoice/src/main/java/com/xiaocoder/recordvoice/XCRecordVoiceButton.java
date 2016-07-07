@@ -233,20 +233,20 @@ public class XCRecordVoiceButton extends Button {
     }
 
     /**
-     * dialog是否正在显示
+     * dialog是否正在显示（即录音是否正在进行）
      */
-    private boolean isDialogShow;
+    private boolean isRecording;
 
     private void end(OnButtonStatus.RecoderStop stop) {
         endTimeRunnable();//该方法放前面
         if (listener != null) {
             listener.onEnd(stop);
         }
-        isDialogShow = false;
+        isRecording = false;
     }
 
-    public boolean isDialogShow() {
-        return isDialogShow;
+    public boolean isRecording() {
+        return isRecording;
     }
 
     @Override
@@ -316,7 +316,7 @@ public class XCRecordVoiceButton extends Button {
             listener.onStart();
         }
 
-        isDialogShow = true;
+        isRecording = true;
 
         long startTemp = System.currentTimeMillis();
 
@@ -342,7 +342,7 @@ public class XCRecordVoiceButton extends Button {
         return false;
     }
 
-    private void toStop() {
+    public void toStop() {
         if (boundaryOut) {
             // touch出界了
             log("出界了， 删除文件");
