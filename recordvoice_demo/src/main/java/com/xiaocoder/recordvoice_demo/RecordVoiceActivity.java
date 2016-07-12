@@ -57,6 +57,9 @@ public class RecordVoiceActivity extends Activity {
     public void setListeners() {
 
         button.setOnButtonStatus(new XCRecordVoiceButton.OnButtonStatus() {
+            /**
+             * @return true，当录音超过最大时间限制时，文件会回传；false则不会，文件会删除
+             */
             @Override
             public boolean isEffectiveVoiceFileWhenTimeOut() {
                 return true;
@@ -64,14 +67,6 @@ public class RecordVoiceActivity extends Activity {
 
             @Override
             public boolean isIntercept() {
-
-//                finishVoicePlaying();
-//
-//                if (checkDue()) {
-//                    shortToast("会话已结束，请重新发起会话");
-//                    return true;
-//                }
-//
                 return false;
             }
 
