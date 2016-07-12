@@ -34,24 +34,27 @@ public class XCRecordVoiceButton extends Button {
     private File save_file;
     /**
      * 时间的压缩参数
+     * （比如显示60秒，RATIO为1 实际运行的是60秒）
+     * （比如显示60秒，RATIO为0.75 实际运行的是45秒）
      */
-    public static double COMPRESS_RATIO = 0.75;
+    //public static double COMPRESS_RATIO = 0.75;
+    public static double COMPRESS_RATIO = 1;
     /**
      * 录音最短时间的限制，毫秒
-     * 会用真实的录音时间（录音开始时间-结束时间）与 MIN_TIME 比较，是否小于了录音时间的限制
+     * 会用 录音开始时间-结束时间 与 MIN_TIME 比较，是否小于了录音时间的限制
      */
     public static int MIN_TIME = 3000;
     /**
      * 录音最长时间的限制，毫秒.
-     * 会用真实的录音时间（录音开始时间-结束时间）与 MAX_TIME 比较，是否超过了录音时间的限制
+     * 会用 录音开始时间-结束时间 与 MAX_TIME 比较，是否超过了录音时间的限制
      */
     public static int MAX_TIME = 45000;
     /**
-     * 每隔多少时间，time减减一次，毫秒
+     * 每隔多少时间，time减一次，毫秒
      */
     public static final int SLEEP_TIME = (int) (1000 * COMPRESS_RATIO);
     /**
-     * 从哪一个时间开始倒计时（线程里的time--的初始值用的就是这个），秒。
+     * 从哪一个时间开始倒计时（线程里的time的初始值用的就是这个），秒。
      * <p/>
      * 有的时候可能显示的是60秒，但是真实可以录制的时间只给45秒
      */
@@ -77,7 +80,7 @@ public class XCRecordVoiceButton extends Button {
      */
     public static final int CLICK_LIMIT = 200;
     /**
-     * 系统弹出权限框(之前调了200，但是小米3不行)
+     * 用时间间隔判断系统是否弹出权限框(之前调了200，但是小米3不行)，
      */
     public static final int SYSTME_HINT_TIME = 500;
 
@@ -168,9 +171,6 @@ public class XCRecordVoiceButton extends Button {
         timeRunnable = new TimeRunnable();
     }
 
-    /**
-     * 子线程中更新textview用的
-     */
     public class TimeRunnable implements Runnable {
 
         public void update(int time) {
@@ -233,7 +233,7 @@ public class XCRecordVoiceButton extends Button {
     }
 
     /**
-     * dialog是否正在显示（即录音是否正在进行）
+     * 录音是否正在进行（dialog是否关闭）
      */
     private boolean isRecording;
 
